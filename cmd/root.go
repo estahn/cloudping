@@ -25,7 +25,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/endpoints"
-	"github.com/davecgh/go-spew/spew"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -36,6 +35,7 @@ var Version string
 var cfgFile string
 var provider string
 var regions[] string
+var timeout int
 var limit int
 var output string
 
@@ -59,7 +59,7 @@ var rootCmd = &cobra.Command{
 			pingResults[region] = pingURI(uri)
 		}
 
-		spew.Dump(pingResults)
+		//spew.Dump(pingResults)
 
 		orderedResults := sortList(pingResults)
 
@@ -96,6 +96,7 @@ func init() {
 	rootCmd.Flags().StringSliceVar(&regions, "regions", nil, "Limits checks to specific regions")
 	rootCmd.Flags().IntVar(&limit, "limit", 0, "Limits the number of regions returned")
 	rootCmd.Flags().StringVar(&output, "output", "txt", "Output format. One of: txt, json, yaml")
+	rootCmd.Flags().IntVar(&timeout, "timeout", 500, "Timeout for each region in milliseconds")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -133,7 +134,8 @@ func pingURI(uri string) int {
 	// Create a httpstat powered context
 	var result httpstat.Result
 
-	ctx1, _ := context.WithTimeout(context.Background(), time.Second*1)
+	ctx1, cancel := context.WithTimeout(context.Background(), time.Millisecond*time.Duration(timeout))
+	defer cancel()
 	req = req.WithContext(ctx1)
 
 	ctx2 := httpstat.WithHTTPStat(req.Context(), &result)
@@ -141,7 +143,10 @@ func pingURI(uri string) int {
 
 	// Send request by default HTTP client
 	client := http.DefaultClient
-	client.Do(req)
+	if _, err := client.Do(req); err != nil {
+		return 9999
+	}
+
 	//end := time.Now()
 
 	// Show the results
