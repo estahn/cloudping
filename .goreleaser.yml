@@ -1,0 +1,30 @@
+ before:
+   hooks:
+   - go mod download
+
+builds:
+  - binary: cloudping
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    hooks:
+      post: make upx
+
+dockers:
+  - image_templates:
+      - "estahn/cloudping:latest"
+      - "estahn/cloudping:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
+      - "estahn/cloudping:{{ .Major }}.{{ .Minor }}"
+      - "estahn/cloudping:{{ .Major }}"
+    build_flag_templates:
+      - "--build-arg=VERSION={{.Version}}"
+      - "--build-arg=BUILD_DATE={{.Date}}"
+      - "--build-arg=VCS_REF={{.FullCommit}}"
+
+archive:
+  format: binary
