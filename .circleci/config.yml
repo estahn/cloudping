@@ -14,7 +14,7 @@ jobs:
             ./cc-test-reporter before-build
       - run:
           name: Install golangci-lint
-          command: wget -O - -q https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.12.5 -b /go/bin
+          command: wget -O - -q https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sudo BINDIR=/go/bin sh -s v1.12.5
       - run: make deps lint test-coverage
       - run:
           name: Upload Code coverage
