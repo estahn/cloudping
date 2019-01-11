@@ -13,8 +13,8 @@ jobs:
             chmod +x ./cc-test-reporter
             ./cc-test-reporter before-build
       - run:
-          name: Install gometalinter
-          command: curl -L https://git.io/vp6lP | sudo BINDIR=/go/bin sh
+          name: Install golangci-lint
+          command: wget -O - -q https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s v1.12.5
       - run: make deps lint test-coverage
       - run:
           name: Upload Code coverage
