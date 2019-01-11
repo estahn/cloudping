@@ -49,12 +49,14 @@ workflows:
             tags:
               only: /^v.*/
       - semantic-release:
+          context: org-global
           requires:
             - test
           filters:
             branches:
               only: master
       - deploy:
+          context: org-global
           requires:
             - test
           filters:
