@@ -28,13 +28,13 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/tcnksm/go-httpstat"
+	httpstat "github.com/tcnksm/go-httpstat"
 )
 
 var Version string
 var cfgFile string
 var provider string
-var regions[] string
+var regions []string
 var timeout int
 var limit int
 var output string
@@ -43,7 +43,7 @@ var output string
 var rootCmd = &cobra.Command{
 	Use:   "cloudping",
 	Short: "Returns the geographically closest region.",
-	Long: `cloudping identifies the regions geographically closest and returns them in order of lowest to highest "response time".`,
+	Long:  `cloudping identifies the regions geographically closest and returns them in order of lowest to highest "response time".`,
 	Run: func(cmd *cobra.Command, args []string) {
 		rs := endpoints.AwsPartition().Services()[endpoints.DynamodbServiceID].Regions()
 
@@ -157,7 +157,7 @@ func pingURI(uri string) int {
 	//log.Printf("Content transfer: %d ms", int(result.ContentTransfer(time.Now())/time.Millisecond))
 	//log.Printf("Content transfer: %d ms", int(result.Total(end)))
 
-	return int(result.TCPConnection/time.Millisecond)
+	return int(result.TCPConnection / time.Millisecond)
 }
 
 // A data structure to hold key/value pairs
@@ -188,11 +188,11 @@ func sortList(noble map[string]int) PairList {
 }
 
 // makeEndpoints creates a map based on a string list
-func makeEndpoints(regions[] string) map[string]endpoints.Region {
+func makeEndpoints(regions []string) map[string]endpoints.Region {
 	rs := map[string]endpoints.Region{}
 
 	for _, id := range regions {
-			rs[id] = endpoints.Region{}
+		rs[id] = endpoints.Region{}
 	}
 
 	return rs
