@@ -1,7 +1,3 @@
- before:
-   hooks:
-   - go mod download
-
 builds:
   - binary: cloudping
     env:
@@ -28,3 +24,9 @@ dockers:
 
 archive:
   format: binary
+
+brew:
+  name: cloudping
+  github:
+    owner: estahn
+    name: homebrew-tap
