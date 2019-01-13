@@ -26,6 +26,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/davecgh/go-spew/spew"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -53,19 +54,25 @@ and returns them in order of lowest to highest latency.`,
 			rs = makeEndpoints(regions)
 		}
 
-		ch := make(chan int)
+		ch := make(chan pingResult)
 		pingResults := make(map[string]int, len(rs))
 
 		for region := range rs {
-			uri := fmt.Sprintf("https://dynamodb.%s.amazonaws.com/ping?x=%s", region, randStringBytes(12))
-			go func(ch chan<- int, uri string) { ch <- pingURI(uri) }(ch, uri)
+			go func(ch chan<- pingResult, region string) {
+				ch <- pingRegion(region)
+			}(ch, region)
 		}
 
-		for region := range rs {
-			pingResults[region] = <-ch
+		for i := 0; i < len(rs); i++ {
+			pr := <-ch
+			pingResults[pr.region] = pr.latency
 		}
+
+		close(ch)
 
 		orderedResults := sortList(pingResults)
+
+		spew.Dump(orderedResults)
 
 		for index, result := range orderedResults {
 			if limit > 0 && index >= limit {
@@ -129,8 +136,15 @@ func initConfig() {
 	}
 }
 
-// pingURI returns the total request duration
-func pingURI(uri string) int {
+type pingResult struct {
+	region  string
+	latency int
+}
+
+// pingRegion returns the total request duration
+func pingRegion(region string) pingResult {
+	uri := fmt.Sprintf("https://dynamodb.%s.amazonaws.com/ping?x=%s", region, randStringBytes(12))
+
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -148,20 +162,20 @@ func pingURI(uri string) int {
 	// Send request by default HTTP client
 	client := http.DefaultClient
 	if _, err := client.Do(req); err != nil {
-		return 9999
+		return pingResult{region: region, latency: 99999}
 	}
 
-	//end := time.Now()
+	end := time.Now()
 
 	// Show the results
-	//log.Printf("DNS lookup: %d ms", int(result.DNSLookup/time.Millisecond))
-	//log.Printf("TCP connection: %d ms", )
-	//log.Printf("TLS handshake: %d ms", int(result.TLSHandshake/time.Millisecond))
-	//log.Printf("Server processing: %d ms", int(result.ServerProcessing/time.Millisecond))
-	//log.Printf("Content transfer: %d ms", int(result.ContentTransfer(time.Now())/time.Millisecond))
-	//log.Printf("Content transfer: %d ms", int(result.Total(end)))
+	log.Printf("%s - DNS lookup: %d ms", uri, int(result.DNSLookup/time.Millisecond))
+	log.Printf("%s - TCP connection: %d ms", uri, int(result.TCPConnection/time.Millisecond))
+	log.Printf("%s - TLS handshake: %d ms", uri, int(result.TLSHandshake/time.Millisecond))
+	log.Printf("%s - Server processing: %d ms", uri, int(result.ServerProcessing/time.Millisecond))
+	log.Printf("%s - Content transfer: %d ms", uri, int(result.ContentTransfer(time.Now())/time.Millisecond))
+	log.Printf("%s - Content transfer: %d ms", uri, int(result.Total(end)))
 
-	return int(result.TCPConnection / time.Millisecond)
+	return pingResult{region: region, latency: int(result.TCPConnection / time.Millisecond)}
 }
 
 // A data structure to hold key/value pairs
