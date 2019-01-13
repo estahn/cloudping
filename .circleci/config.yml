@@ -37,6 +37,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: sudo apt-get install -y upx
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: curl -sL https://git.io/goreleaser | bash
 
