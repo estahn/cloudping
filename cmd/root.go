@@ -44,7 +44,7 @@ var output string
 var rootCmd = &cobra.Command{
 	Use:   "cloudping",
 	Short: "Returns the geographically closest region.",
-	Long:  `cloudping identifies the cloud provider regions geographically closest
+	Long: `cloudping identifies the cloud provider regions geographically closest
 and returns them in order of lowest to highest latency.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		rs := endpoints.AwsPartition().Services()[dynamodb.EndpointsID].Regions()
@@ -53,15 +53,17 @@ and returns them in order of lowest to highest latency.`,
 			rs = makeEndpoints(regions)
 		}
 
+		ch := make(chan int)
 		pingResults := make(map[string]int, len(rs))
 
 		for region := range rs {
 			uri := fmt.Sprintf("https://dynamodb.%s.amazonaws.com/ping?x=%s", region, randStringBytes(12))
-			//println(uri)
-			pingResults[region] = pingURI(uri)
+			go func(ch chan<- int, uri string) { ch <- pingURI(uri) }(ch, uri)
 		}
 
-		//spew.Dump(pingResults)
+		for region := range rs {
+			pingResults[region] = <-ch
+		}
 
 		orderedResults := sortList(pingResults)
 
