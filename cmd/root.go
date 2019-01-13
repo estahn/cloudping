@@ -25,6 +25,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/endpoints"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -46,7 +47,7 @@ var rootCmd = &cobra.Command{
 	Long:  `cloudping identifies the cloud provider regions geographically closest
 and returns them in order of lowest to highest latency.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		rs := endpoints.AwsPartition().Services()[endpoints.DynamodbServiceID].Regions()
+		rs := endpoints.AwsPartition().Services()[dynamodb.EndpointsID].Regions()
 
 		if len(regions) > 0 {
 			rs = makeEndpoints(regions)
