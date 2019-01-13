@@ -16,3 +16,9 @@ The idea came from the need to download images from the geographically closest d
 We operate our Kubernetes cluster in Sydney/Australia but use CircleCI operating in the US.
 Because AWS ECR doesn't provide a common endpoint with geographically distributed backend we push our images to both locations.
 Within our Makefile we can use `cloudping` to identify if images should be pulled from the US or Sydney. 
+
+## Similar projects
+
+* [CloudPing.info](https://www.cloudping.info/)
+* [AWS Inter-Region Latency Monitoring](https://www.cloudping.co/)
+* [GCP ping](http://www.gcping.com/)
