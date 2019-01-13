@@ -1,6 +1,6 @@
 # cloudping
 
-[![Travis CI](https://img.shields.io/travis/estahn/cloudping.svg?style=for-the-badge)](https://travis-ci.org/estahn/cloudping)
+[![CircleCI](https://img.shields.io/circleci/project/github/badges/shields/master.svg?style=for-the-badge)](https://circleci.com/gh/estahn/cloudping)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/github.com/estahn/cloudping)
 [![Github All Releases](https://img.shields.io/github/downloads/estahn/cloudping/total.svg?style=for-the-badge)](https://github.com/estahn/cloudping/releases)
 
@@ -53,6 +53,8 @@ The following example checks and returns only 2 regions:
 
 ```console
 $ cloudping --provider=aws --regions=ap-southeast-2,us-east-1
+ap-southeast-2
+us-east-1
 ```
 
 ## Installation
