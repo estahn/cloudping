@@ -12,8 +12,8 @@ builds:
       - linux
     goarch:
       - amd64
-    hooks:
-      post: make upx
+    # hooks:
+    #   post: make upx
 
 dockers:
   - image_templates:
