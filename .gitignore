@@ -15,4 +15,4 @@
 .idea/
 
 # goreleaser
-.dist/
+dist/
