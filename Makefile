@@ -1,4 +1,6 @@
+.PHONY: help deps lint fmt test test-coverage test-coverage-html release upx clean readme
 .DEFAULT_GOAL := help
+
 help: ## List targets & descriptions
 	@cat Makefile* | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -31,3 +33,6 @@ upx: ## Compact artifacts
 
 clean: ## Clean up
 	rm -rf .cover dist
+
+readme: ## Update the table of contents for all README.md's
+	find . -iname "*.md" -exec markdown-toc -i {} \;
