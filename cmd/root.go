@@ -43,7 +43,8 @@ var output string
 var rootCmd = &cobra.Command{
 	Use:   "cloudping",
 	Short: "Returns the geographically closest region.",
-	Long:  `cloudping identifies the regions geographically closest and returns them in order of lowest to highest "response time".`,
+	Long:  `cloudping identifies the cloud provider regions geographically closest
+and returns them in order of lowest to highest latency.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		rs := endpoints.AwsPartition().Services()[endpoints.DynamodbServiceID].Regions()
 
