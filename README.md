@@ -79,7 +79,7 @@ If you are on macOS and using [Homebrew](https://brew.sh/) package manager, you 
 
 1. Run the installation command:
    ```console
-   $ brew install estahn/cloudping
+   $ brew install estahn/tap/cloudping
    ```
 2. Test to ensure the version you installed is sufficiently up-to-date:
    ```console
