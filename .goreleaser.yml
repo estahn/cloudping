@@ -39,5 +39,6 @@ brew:
     owner: estahn
     name: homebrew-tap
 
+  folder: Formula
   homepage: https://github.com/estahn/cloudping
   description: "cloudping identifies the cloud provider regions geographically closest and returns them in order of lowest to highest latency."
