@@ -1,3 +1,7 @@
+before:
+  hooks:
+    - make clean deps
+
 builds:
   - binary: cloudping
     env:
@@ -24,9 +28,16 @@ dockers:
 
 archive:
   format: binary
+  format_overrides:
+    - goos: darwin
+      format: zip
 
 brew:
   name: cloudping
+
   github:
     owner: estahn
     name: homebrew-tap
+
+  homepage: https://github.com/estahn/cloudping
+  description: "cloudping identifies the cloud provider regions geographically closest and returns them in order of lowest to highest latency."
