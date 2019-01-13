@@ -26,7 +26,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/davecgh/go-spew/spew"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -71,8 +70,6 @@ and returns them in order of lowest to highest latency.`,
 		close(ch)
 
 		orderedResults := sortList(pingResults)
-
-		spew.Dump(orderedResults)
 
 		for index, result := range orderedResults {
 			if limit > 0 && index >= limit {
@@ -165,15 +162,15 @@ func pingRegion(region string) pingResult {
 		return pingResult{region: region, latency: 99999}
 	}
 
-	end := time.Now()
-
-	// Show the results
-	log.Printf("%s - DNS lookup: %d ms", uri, int(result.DNSLookup/time.Millisecond))
-	log.Printf("%s - TCP connection: %d ms", uri, int(result.TCPConnection/time.Millisecond))
-	log.Printf("%s - TLS handshake: %d ms", uri, int(result.TLSHandshake/time.Millisecond))
-	log.Printf("%s - Server processing: %d ms", uri, int(result.ServerProcessing/time.Millisecond))
-	log.Printf("%s - Content transfer: %d ms", uri, int(result.ContentTransfer(time.Now())/time.Millisecond))
-	log.Printf("%s - Content transfer: %d ms", uri, int(result.Total(end)))
+	//end := time.Now()
+	//
+	//// Show the results
+	//log.Printf("%s - DNS lookup: %d ms", uri, int(result.DNSLookup/time.Millisecond))
+	//log.Printf("%s - TCP connection: %d ms", uri, int(result.TCPConnection/time.Millisecond))
+	//log.Printf("%s - TLS handshake: %d ms", uri, int(result.TLSHandshake/time.Millisecond))
+	//log.Printf("%s - Server processing: %d ms", uri, int(result.ServerProcessing/time.Millisecond))
+	//log.Printf("%s - Content transfer: %d ms", uri, int(result.ContentTransfer(time.Now())/time.Millisecond))
+	//log.Printf("%s - Content transfer: %d ms", uri, int(result.Total(end)))
 
 	return pingResult{region: region, latency: int(result.TCPConnection / time.Millisecond)}
 }
