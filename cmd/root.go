@@ -76,7 +76,7 @@ and returns them in order of lowest to highest latency.`,
 				break
 			}
 
-			println(result.Key)
+			fmt.Println(result.Key)
 		}
 	},
 }
