@@ -25,7 +25,7 @@ jobs:
 
   semantic-release:
     docker:
-      - image: circleci/node:9
+      - image: circleci/node:10
     steps:
       - checkout
       - run: yarn global add --prefer-offline --no-progress --non-interactive "semantic-release@15.5.0" "@semantic-release/exec@2.2.4"
