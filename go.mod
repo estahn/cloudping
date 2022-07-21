@@ -9,4 +9,4 @@ require (
 	github.com/tcnksm/go-httpstat v0.2.0
 )
 
-go 1.13
+go 1.18
