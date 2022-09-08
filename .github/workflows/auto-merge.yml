@@ -1,0 +1,13 @@
+name: Auto-Merge
+on:
+  pull_request_target
+
+jobs:
+  enable-auto-merge:
+    runs-on: ubuntu-latest
+
+    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+    steps:
+    - uses: alexwilson/enable-github-automerge-action@main
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
