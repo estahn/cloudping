@@ -1,8 +1,7 @@
 module github.com/estahn/cloudping
 
 require (
-	github.com/aws/aws-sdk-go v1.44.93
-	github.com/davecgh/go-spew v1.1.1
+	github.com/aws/aws-sdk-go v1.44.123
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.13.0
