@@ -27,5 +27,6 @@ jobs:
     secrets: inherit
     permissions:
       packages: write
+      contents: read
     with:
       forRef: ${{ needs.release.outputs.tag_name }}
