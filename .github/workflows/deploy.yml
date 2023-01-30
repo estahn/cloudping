@@ -1,7 +1,6 @@
 name: Deploy
 
-on:
-  create
+on: create
 
 permissions:
   contents: read
