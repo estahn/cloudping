@@ -1,6 +1,8 @@
 name: Deploy
 
-on: create
+on:
+  workflow_dispatch:
+  create:
 
 permissions:
   contents: read
