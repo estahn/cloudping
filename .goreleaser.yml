@@ -6,11 +6,13 @@ builds:
   - env:
       - CGO_ENABLED=0
     goos:
-      - windows
-      - darwin
       - linux
+      - darwin
+      - windows
     goarch:
+      - "386"
       - amd64
+      - arm
       - arm64
     mod_timestamp: '{{ .CommitTimestamp }}'
     flags:
@@ -58,15 +60,8 @@ dockers:
     - "--build-arg=VCS_REF={{.FullCommit}}"
     - "--platform=linux/arm64/v8"
 
-archives:
-  - format: binary
-    format_overrides:
-      - goos: darwin
-        format: zip
-
 brews:
   - name: cloudping
-
     tap:
       owner: estahn
       name: homebrew-tap
