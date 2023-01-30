@@ -3,8 +3,7 @@ before:
     - make clean deps
 
 builds:
-  - binary: cloudping
-    env:
+  - env:
       - CGO_ENABLED=0
     goos:
       - windows
@@ -12,8 +11,12 @@ builds:
       - linux
     goarch:
       - amd64
-    # hooks:
-    #   post: make upx
+      - arm64
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
 
 dockers:
   - image_templates:
