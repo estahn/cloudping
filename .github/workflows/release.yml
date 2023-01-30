@@ -25,5 +25,7 @@ jobs:
     needs: [release]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
+    permissions:
+      packages: write
     with:
       forRef: ${{ needs.release.outputs.tag_name }}
