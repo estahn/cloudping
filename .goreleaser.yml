@@ -35,7 +35,7 @@ archives:
 brews:
   - name: cloudping
 
-    github:
+    tap:
       owner: estahn
       name: homebrew-tap
 
