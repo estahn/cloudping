@@ -15,7 +15,7 @@ on:
   create:
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 env:
