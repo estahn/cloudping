@@ -17,14 +17,43 @@ builds:
 
 dockers:
   - image_templates:
-      - "estahn/cloudping:latest"
-      - "estahn/cloudping:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
-      - "estahn/cloudping:{{ .Major }}.{{ .Minor }}"
-      - "estahn/cloudping:{{ .Major }}"
+      - "ghcr.io/estahn/cloudping:latest-amd64"
+      - "ghcr.io/estahn/cloudping:{{ .Version }}-amd64"
+      - "ghcr.io/estahn/cloudping:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-amd64"
+      - "ghcr.io/estahn/cloudping:{{ .Major }}.{{ .Minor }}-amd64"
+      - "ghcr.io/estahn/cloudping:{{ .Major }}-amd64"
+    use: buildx
+    dockerfile: Dockerfile
+    goarch: amd64
     build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
       - "--build-arg=VERSION={{.Version}}"
       - "--build-arg=BUILD_DATE={{.Date}}"
       - "--build-arg=VCS_REF={{.FullCommit}}"
+      - "--platform=linux/amd64"
+  - image_templates:
+      - "ghcr.io/estahn/cloudping:latest-arm64v8"
+      - "ghcr.io/estahn/cloudping:{{ .Version }}-arm64v8"
+      - "ghcr.io/estahn/cloudping:{{ .Major }}.{{ .Minor }}.{{ .Patch }}-arm64v8"
+      - "ghcr.io/estahn/cloudping:{{ .Major }}.{{ .Minor }}-arm64v8"
+      - "ghcr.io/estahn/cloudping:{{ .Major }}-arm64v8"
+    use: buildx
+    dockerfile: Dockerfile
+    goarch: arm64
+    build_flag_templates:
+    - "--pull"
+    - "--label=org.opencontainers.image.created={{.Date}}"
+    - "--label=org.opencontainers.image.title={{.ProjectName}}"
+    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+    - "--label=org.opencontainers.image.version={{.Version}}"
+    - "--build-arg=VERSION={{.Version}}"
+    - "--build-arg=BUILD_DATE={{.Date}}"
+    - "--build-arg=VCS_REF={{.FullCommit}}"
+    - "--platform=linux/arm64/v8"
 
 archives:
   - format: binary
