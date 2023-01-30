@@ -26,19 +26,19 @@ dockers:
       - "--build-arg=BUILD_DATE={{.Date}}"
       - "--build-arg=VCS_REF={{.FullCommit}}"
 
-archive:
-  format: binary
-  format_overrides:
-    - goos: darwin
-      format: zip
+archives:
+  - format: binary
+    format_overrides:
+      - goos: darwin
+        format: zip
 
-brew:
-  name: cloudping
+brews:
+  - name: cloudping
 
-  github:
-    owner: estahn
-    name: homebrew-tap
+    github:
+      owner: estahn
+      name: homebrew-tap
 
-  folder: Formula
-  homepage: https://github.com/estahn/cloudping
-  description: "cloudping identifies the cloud provider regions geographically closest and returns them in order of lowest to highest latency."
+    folder: Formula
+    homepage: https://github.com/estahn/cloudping
+    description: "cloudping identifies the cloud provider regions geographically closest and returns them in order of lowest to highest latency."
