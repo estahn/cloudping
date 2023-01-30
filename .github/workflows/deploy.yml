@@ -59,4 +59,6 @@ jobs:
         version: latest
         args: release --rm-dist
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Need PAT to write into homebrew-tap repo
+        GORELEASER_GITHUB_TOKEN: ${{ secrets.PAT }}
