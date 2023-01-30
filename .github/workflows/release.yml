@@ -14,8 +14,11 @@ jobs:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.release-drafter.outputs.tag_name }}
     steps:
-      - uses: release-drafter/release-drafter@v5
+      - id: release-drafter
+        uses: release-drafter/release-drafter@v5
         with:
           publish: true
         env:
