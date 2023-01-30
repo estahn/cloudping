@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  update_release_draft:
+  release:
     permissions:
       contents: write
       pull-requests: write
@@ -20,3 +20,10 @@ jobs:
           publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: [release]
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+    with:
+      forRef: ${{ needs.release.outputs.tag_name }}
