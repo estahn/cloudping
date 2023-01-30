@@ -2,6 +2,11 @@ name: Deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      forRef:
+        description: 'Branch, SHA or Tag to release'
+        required: false
+        type: string
   create:
 
 permissions:
@@ -19,6 +24,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.forRef }}
 
     - name: Unshallow
       run: git fetch --prune --unshallow
