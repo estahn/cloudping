@@ -61,4 +61,4 @@ jobs:
       env:
         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # Need PAT to write into homebrew-tap repo
-        GORELEASER_GITHUB_TOKEN: ${{ secrets.PAT }}
+        GITHUB_TOKEN: ${{ secrets.PAT }}
